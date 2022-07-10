@@ -6,6 +6,7 @@ const PageRouter = () => {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<HomePage />} />
       </Routes>
     </Router>
   );

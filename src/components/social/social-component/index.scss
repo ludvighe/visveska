@@ -1,0 +1,166 @@
+.social-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+
+  width: min-content;
+  margin: 1em;
+
+  .thumbnails-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1em;
+  }
+
+  .counter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+
+    width: 250px;
+
+    border-radius: 10px;
+
+    background-color: #ffffff22;
+    backdrop-filter: blur(10px);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    padding: 0.5em;
+  }
+}
+
+#color-scheme-dark .thumbnail,
+#color-scheme-dark .social-component .counter-container {
+  background-color: #ffffff55;
+}
+#color-scheme-light .thumbnail,
+#color-scheme-light .social-component .counter-container {
+  background-color: #ffffffcc;
+}
+.thumbnail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+
+  width: 100px;
+  border-radius: 10px;
+
+  backdrop-filter: blur(10px);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  padding: 0.3em;
+  cursor: pointer;
+  transition: all 200ms ease;
+
+  img {
+    height: 80px;
+    width: 80px;
+  }
+
+  --thumbnail-before-top: 100%;
+  --thumbnail-before-left: -75%;
+  &::before {
+    content: "";
+
+    position: absolute;
+    top: var(--thumbnail-before-top);
+    left: var(--thumbnail-before-left);
+
+    transform: rotate(45deg);
+    transition: all 400ms ease;
+
+    width: 150px;
+    height: 10px;
+    background-color: #ffffff22;
+  }
+
+  &:hover,
+  &:active {
+    background-color: #ffffff88 !important;
+
+    &::before {
+      --thumbnail-before-top: -50%;
+      --thumbnail-before-left: 50%;
+    }
+  }
+
+  &:active {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 30px 60px -12px inset,
+      rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  }
+
+  @keyframes glint-animation {
+    0% {
+      transform: scale(0.1) rotate(0deg);
+    }
+    50% {
+      transform: scale(1) rotate(180deg);
+    }
+    100% {
+      transform: scale(0.1) rotate(360deg);
+    }
+  }
+  .glint {
+    transform: scale(0.1) rotate(0deg);
+    position: absolute;
+
+    width: 25px;
+    height: 25px;
+
+    animation-name: glint-animation;
+    animation-duration: 350ms;
+
+    opacity: 0.4;
+  }
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 2ch;
+
+  background-color: var(--white);
+  color: black;
+
+  font-size: 32px;
+  font-weight: bold;
+  font-family: monospace;
+
+  margin: 0;
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .wheel {
+    display: inline;
+    width: 1ch;
+    height: 2ch;
+    text-align: center;
+    scroll-behavior: smooth;
+    overflow-y: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+
+    .wheel-digit {
+      height: 2ch;
+      transition: all 500ms ease;
+    }
+  }
+}

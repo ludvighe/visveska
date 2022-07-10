@@ -1,0 +1,82 @@
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .social-section {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+  .line-svg-0 {
+    position: fixed;
+    z-index: -100;
+    left: -5vw;
+    bottom: -10vh;
+    width: 110vw;
+    stroke-width: 30;
+    transition: all 200ms ease;
+  }
+  .line-svg-1 {
+    position: fixed;
+    z-index: -100;
+    left: -5vw;
+    bottom: -20vh;
+    width: 110vw;
+    // height: 100px;
+    stroke-width: 30;
+    transition: all 200ms ease;
+  }
+
+  .ball-icon {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    border-radius: 100%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    cursor: pointer;
+    transition: all ease 100ms;
+
+    &:active {
+      box-shadow: rgba(0, 0, 0, 0.5) 0px 30px 60px -12px inset,
+        rgba(0, 0, 0, 0.5) 0px 18px 36px -18px inset;
+      transform: translateY(2px) rotate(2deg);
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .line-svg-0,
+    .line-svg-1 {
+      // bottom: -30vh;
+      stroke-width: 100;
+    }
+  }
+}
+
+@keyframes ball-icon-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+.ball-icon {
+  animation-name: ball-icon-animation;
+  animation-duration: 250ms;
+  animation-delay: 250ms;
+}

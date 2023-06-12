@@ -3,6 +3,55 @@ import ballIcon from "../../../assets/icons/ball.png";
 import "./index.scss";
 import { changeColorScheme } from "../../../services/color-scheme";
 import { createSignal } from "solid-js";
+import {
+  ShowcaseCardContainer,
+  ShowcaseCardData,
+} from "../../common/showcase-card.tsx";
+import CssesserImg from "../../../assets/images/cssesser.web.app_grader.png";
+import VispassImg from "../../../assets/images/vispass.web.app_.png";
+import CodicesImg from "../../../assets/images/visvis.org_.png";
+import PeaceinapodImg from "../../../assets/images/peaceinapod_bg.png";
+import MurmelpassImg from "../../../assets/images/murmelpass_screenshot.png";
+
+const siteShowcaseData: ShowcaseCardData[] = [
+  {
+    title: "Vispass",
+    subtitle: "A password manager that doesn't store any passwords.",
+    websiteUrl: "https://vispass.web.app/",
+    sourceUrl: "https://github.com/ludvighe/vispass",
+    image: VispassImg,
+  },
+  {
+    title: "Cssesser",
+    subtitle: "Graphical tools for generating and converting css.",
+    websiteUrl: "https://cssesser.web.app/",
+    sourceUrl: "https://github.com/ludvighe/cssesser",
+    image: CssesserImg,
+  },
+  {
+    title: "Peaceinapod",
+    subtitle: "An app for listening to podcasts.",
+    apkUrl: "https://drive.proton.me/urls/VB9MPSTS20#8F3illUKhCUn",
+    sourceUrl: "https://github.com/ludvighe/peaceinapod",
+    image: PeaceinapodImg,
+  },
+  {
+    title: "Codices",
+    subtitle: "A note taking app.",
+    websiteUrl: "https://visvis.org/",
+    sourceUrl: "https://github.com/ludvighe/codices",
+    image: CodicesImg,
+  },
+  {
+    title: "Password Manager Extension",
+    subtitle:
+      "A Chrome extension to generate domain and user specific password.",
+    websiteUrl:
+      "https://chrome.google.com/webstore/detail/murmelpass/mapffpggohioipkafngincgbnleljnfh",
+    sourceUrl: "https://github.com/ludvighe/murmelpass-extension",
+    image: MurmelpassImg,
+  },
+];
 
 const HomePage = () => {
   const [svgColor, setSvgColor] = createSignal([136, 20, 26]);
@@ -58,6 +107,9 @@ const HomePage = () => {
       <br />
       <br />
       <br />
+      <section class="showcase-section">
+        <ShowcaseCardContainer data={siteShowcaseData} />
+      </section>
       <section class="social-section">
         <SocialComponent />
       </section>

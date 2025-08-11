@@ -1,0 +1,14 @@
+#!/bin/bash -eu
+
+in="index.html"
+out="dist/index.html"
+mkdir -p "$(dirname "$out")"
+npx --yes html-minifier-terser \
+    --collapse-whitespace \
+    --remove-comments \
+    --remove-empty-attributes \
+    --remove-redundant-attributes \
+    --remove-attribute-quotes \
+    --minify-css true \
+    --minify-js true \
+    "$in" >"$out"

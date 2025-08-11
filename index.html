@@ -1,16 +1,439 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <link rel="shortcut icon" type="image/ico" href="/src/assets/favicon.ico" />
-    <title>Visveska</title>
-  </head>
-  <body id="color-scheme-dark">
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Visväska</title>
+    <style>
+      :root {
+        --bg: #0b0c10;
+        --bg2: #0e1016;
+        --fg: #e6e9ef;
+        --muted: #a6adbb;
+        --card: #141826;
+        --accent: #7c5cff;
+        --ring: 72 95% 61%;
+      }
+      :root[data-theme="light"] {
+        --bg: #f7f7fb;
+        --bg2: #ffffff;
+        --fg: #0f172a;
+        --muted: #475569;
+        --card: #ffffff;
+        --accent: #5b6cff;
+        --ring: 242 84% 62%;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
 
-    <script src="/src/index.tsx" type="module"></script>
+      body {
+        margin: 0;
+        font:
+          16px/1.5 system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Inter,
+          Ubuntu,
+          Cantarell,
+          Noto Sans,
+          sans-serif;
+        background:
+          radial-gradient(
+            1200px 600px at 10% -10%,
+            color-mix(in oklab, var(--accent), #000 80%) 0,
+            transparent 60%
+          ),
+          radial-gradient(
+            1200px 600px at 110% 10%,
+            color-mix(in oklab, var(--accent), #fff 80%) 0,
+            transparent 60%
+          ),
+          linear-gradient(var(--bg), var(--bg2));
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        color: var(--fg);
+        -webkit-font-smoothing: antialiased;
+        accent-color: var(--accent);
+      }
+      .wrap {
+        max-width: 72rem;
+        margin: 0 auto;
+        padding: 6vmin 5vmin;
+      }
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 0.6rem 0.9rem;
+        background: color-mix(in oklab, var(--accent), #000 80%);
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        cursor: pointer;
+        transition:
+          transform 0.2s ease,
+          opacity 0.2s ease;
+        will-change: transform;
+      }
+      button:focus-visible {
+        outline: 2px solid hsl(var(--ring));
+        outline-offset: 2px;
+      }
+      button:hover {
+        transform: translateY(-1px);
+      }
+      main {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1rem;
+      }
+      section {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: subgrid;
+        row-gap: 1rem;
+      }
+      section > h3 {
+        grid-column: 1/-1;
+        margin: 2vmin 0 0;
+        font-size: 1rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .grid {
+        grid-column: 1/-1;
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 1rem;
+      }
+      @media (min-width: 700px) {
+        .grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 1000px) {
+        .grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+      .card {
+        background: color-mix(in oklab, var(--card), #000 6%);
+        border: 1px solid color-mix(in oklab, var(--card), #fff 10%);
+        border-radius: 14px;
+        padding: 1.1rem;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        transition: transform 0.18s ease;
+      }
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 3px 10px 15px color-mix(in oklab, var(--accent), #0004 90%);
+        border-color: color-mix(in oklab, var(--accent), #fff 25%);
+      }
+      .card:focus-visible {
+        outline: 2px solid hsl(var(--ring));
+        outline-offset: 2px;
+      }
+      .card h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+      }
+      .card p {
+        margin: 0;
+        min-height: 3em;
+        color: var(--muted);
+      }
+      .card .meta {
+        margin-top: 0.25rem;
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .card .source {
+        margin-top: auto;
+        align-self: flex-end;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+      #links .grid {
+        gap: 0.8rem;
+      }
+      #links .card {
+        padding: 0.8rem 0.9rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      #links .card h3 {
+        font-size: 1rem;
+      }
+      #links svg {
+        width: 14px;
+        height: 14px;
+      }
+      footer {
+        margin-top: 6vmin;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      kbd {
+        font: inherit;
+        background: color-mix(in oklab, var(--card), #fff 8%);
+        border: 1px solid color-mix(in oklab, var(--card), #fff 20%);
+        border-bottom-width: 2px;
+        border-radius: 6px;
+        padding: 0.1rem 0.35rem;
+      }
+      :focus-visible {
+        scroll-margin: 10vh;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+      h1 {
+        position: fixed;
+        bottom: 0;
+        left: 1vw;
+        font-size: 10vw;
+        color: var(--accent);
+        opacity: 0.02;
+        transform-origin: left center;
+        transform: perspective(700px) rotateY(30deg);
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <main>
+        <h1>Visväska</h1>
+        <section id="projects-ui">
+          <h3>Point and Clickers</h3>
+          <div class="grid">
+            <div class="card">
+              <h3>
+                <a
+                  href="https://cssesser.web.app/grader"
+                  target="_blank"
+                  rel="noopener"
+                  >Cssesser</a
+                >
+              </h3>
+              <p>Graphical tools for generating and converting css.</p>
+              <span class="meta">Web • TypeScript • Solid • Sass</span>
+              <a
+                class="source"
+                href="https://github.com/ludvighe/cssesser"
+                target="_blank"
+                rel="noopener"
+                >Source</a
+              >
+            </div>
+            <div class="card">
+              <h3>
+                <a
+                  href="https://drive.proton.me/urls/VB9MPSTS20#8F3illUKhCUn"
+                  target="_blank"
+                  rel="noopener"
+                  >Peaceinapod</a
+                >
+              </h3>
+              <p>An app for listening to podcasts.</p>
+              <span class="meta">Mobile • Flutter</span>
+              <a
+                class="source"
+                href="https://github.com/ludvighe/peaceinapod"
+                target="_blank"
+                rel="noopener"
+                >Source</a
+              >
+            </div>
+            <div class="card">
+              <h3>buys</h3>
+              <p>An app for writing shopping lists.</p>
+              <span class="meta">Mobile • Flutter</span>
+              <a
+                class="source"
+                href="https://github.com/ludvighe/buys"
+                target="_blank"
+                rel="noopener"
+                >Source</a
+              >
+            </div>
+            <div class="card">
+              <h3>
+                <a href="https://vispass.web.app" target="_blank" rel="noopener"
+                  >Vispass</a
+                >
+              </h3>
+              <p>A password manager that doesn't store any passwords.</p>
+              <span class="meta">Web • TypeScript • Solid</span>
+              <a
+                class="source"
+                href="https://github.com/ludvighe/vispass"
+                target="_blank"
+                rel="noopener"
+                >Source</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <section id="projects-term">
+          <h3>Click and Clackers</h3>
+          <div class="grid">
+            <div class="card">
+              <h3>sesh</h3>
+              <p>
+                Command line tool to declaratively launch tmux sessions from a
+                YAML spec.
+              </p>
+              <span class="meta">CLI • Go</span>
+              <a
+                class="source"
+                href="https://github.com/ludvighe/sesh"
+                target="_blank"
+                rel="noopener"
+                >Source</a
+              >
+            </div>
+            <div class="card">
+              <h3>Brasa</h3>
+              <p>
+                A bit intense but super christmasy fireplace in the terminal.
+              </p>
+              <span class="meta">CLI • Rust</span>
+              <a
+                class="source"
+                href="https://github.com/ludvighe/brasa"
+                target="_blank"
+                rel="noopener"
+                >Source</a
+              >
+            </div>
+            <div class="card">
+              <h3>Conv</h3>
+              <p>Command line tool to convert between scales.</p>
+              <span class="meta">CLI • Rust</span>
+              <a
+                class="source"
+                href="https://github.com/ludvighe/conv-cli"
+                target="_blank"
+                rel="noopener"
+                >Source</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <section id="links">
+          <h3>Helloers</h3>
+          <div class="grid">
+            <a
+              class="card"
+              href="https://github.com/ludvighe"
+              target="_blank"
+              rel="noopener"
+            >
+              <h3>GitHub</h3>
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M7 17 17 7M17 7H8m9 0v9"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </a>
+            <a
+              class="card"
+              href="https://www.linkedin.com/in/ludvig-henriksson-0b7b80178"
+              target="_blank"
+              rel="noopener"
+            >
+              <h3>LinkedIn</h3>
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M7 17 17 7M17 7H8m9 0v9"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </a>
+            <a class="card" href="mailto:contact.halt673@passinbox.com">
+              <h3>Electronic mail</h3>
+              <svg viewBox="0 0 24 24">
+                <path
+                  d="M7 17 17 7M17 7H8m9 0v9"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <button id="theme" aria-label="Toggle theme">
+          <span id="mode">Auto</span>
+        </button>
+        <span title="Sorry, Vimium users"><kbd>T</kbd> toggles theme</span>
+      </footer>
+    </div>
+
+    <script>
+      const r = document.documentElement;
+      const s = localStorage.getItem("theme") || "auto";
+      const b = document.getElementById("theme");
+      const m = document.getElementById("mode");
+      const set = (t) => {
+        t === "auto"
+          ? r.removeAttribute("data-theme")
+          : r.setAttribute("data-theme", t);
+        localStorage.setItem("theme", t);
+        m.textContent = t[0].toUpperCase() + t.slice(1);
+      };
+      set(s);
+      b.addEventListener("click", () =>
+        set(
+          r.getAttribute("data-theme") === "light"
+            ? "dark"
+            : r.getAttribute("data-theme") === "dark"
+              ? "auto"
+              : "light",
+        ),
+      );
+      addEventListener("keydown", (e) => {
+        if (e.key.toLowerCase() === "t") b.click();
+      });
+    </script>
   </body>
 </html>
